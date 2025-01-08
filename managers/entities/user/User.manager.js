@@ -186,6 +186,45 @@ module.exports = class User {
     };
   }
 
+  async getUser({ __token, __query, res }) {
+    const { userId } = __token;
+    const { id } = __query;
+
+    const currentUser = await this._getUser({ userId });
+    // Only user himself or superAdmin or  can view
+    const canViewUser =
+      userId === id ||
+      (await this.shark.isGranted({
+        layer: 'board.user',
+        action: 'read',
+        userId,
+        nodeId: `board.user`,
+        role: currentUser.role,
+      }));
+
+    if (!canViewUser) {
+      this.responseDispatcher.dispatch(res, {
+        ok: false,
+        code: 403,
+        message: 'Permission denied',
+      });
+      return { selfHandleResponse: true };
+    }
+
+    const user = await this.oyster.call('get_block', `${this._label}:${id}`);
+    if (!user || this.utils.isObjEmpty(user)) {
+      this.responseDispatcher.dispatch(res, {
+        ok: false,
+        code: 404,
+        message: 'User not found',
+      });
+      return { selfHandleResponse: true };
+    }
+
+    const { password: _password, ...userWithoutPassword } = user;
+    return { user: userWithoutPassword };
+  }
+
   async updateUser({ __token, id, username, email, password, role, res }) {
     const { userId } = __token;
     const currentUser = await this._getUser({ userId });
@@ -194,7 +233,7 @@ module.exports = class User {
         layer: 'board.user',
         action: 'config',
         userId,
-        nodeId: `board.user.superAdmin`,
+        nodeId: `board.user`,
         role: currentUser.role,
       });
 
@@ -219,7 +258,7 @@ module.exports = class User {
 
     // Get the user
     const user = await this.oyster.call('get_block', `${this._label}:${id}`);
-    if (!user) {
+    if (!user || this.utils.isObjEmpty(user)) {
       this.responseDispatcher.dispatch(res, {
         ok: false,
         code: 404,
@@ -248,5 +287,48 @@ module.exports = class User {
 
     const { password: _password, ...userWithoutPassword } = updatedUser;
     return { user: userWithoutPassword };
+  }
+
+  async deleteUser({ __token, __query, res }) {
+    const { userId } = __token;
+    const { id } = __query;
+
+    const currentUser = await this._getUser({ userId });
+
+    const canDeleteUser = await this.shark.isGranted({
+      layer: 'board.user',
+      action: 'delete',
+      userId,
+      nodeId: `board.user`,
+      role: currentUser.role,
+    });
+
+    if (!canDeleteUser) {
+      this.responseDispatcher.dispatch(res, {
+        ok: false,
+        code: 403,
+        message: 'Only superAdmin can delete user',
+      });
+      return { selfHandleResponse: true };
+    }
+
+    // Get User
+    const user = await this.oyster.call('get_block', `${this._label}:${id}`);
+    if (!user || this.utils.isObjEmpty(user)) {
+      this.responseDispatcher.dispatch(res, {
+        ok: false,
+        code: 404,
+        message: 'User not found',
+      });
+      return { selfHandleResponse: true };
+    }
+
+    // Delete User & Relations
+    await this.oyster.call('delete_block', `${this._label}:${id}`);
+    await this.oyster.call('delete_relations', {
+      _id: `${this._label}:${id}`,
+    });
+
+    return { message: 'User deleted successfully' };
   }
 };
