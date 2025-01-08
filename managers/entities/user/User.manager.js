@@ -16,10 +16,17 @@ module.exports = class User {
     this.tokenManager = managers.token;
     this.responseDispatcher = managers.responseDispatcher;
     this.shark = managers.shark;
-    this.usersCollection = 'users';
-    this.userExposed = ['createUser'];
     this._label = 'user';
-    this.httpExposed = ['createUser'];
+    this.httpExposed = [
+      'createUser',
+      'loginUser',
+      'patch=updateUser',
+      'delete=deleteUser',
+      'get=getUser',
+    ];
+  }
+  async _getUser({ userId }) {
+    return await this.oyster.call('get_block', `${userId}`);
   }
   async _setPermissions({ userId, role }) {
     const addDirectAccess = ({ nodeId, action }) => {
@@ -81,13 +88,13 @@ module.exports = class User {
   }
   async createUser({ userName, email, password, role = 'user', res }) {
     // Data validation
-    let result = await this.validators.user.createUser({
+    const validationResult = await this.validators.user.createUser({
       userName,
       email,
       password,
       role,
     });
-    if (result) return result;
+    if (validationResult) return validationResult;
 
     // Creation Logic
     const hashedPassword = await this.hasher.hashPassword(password);
@@ -131,5 +138,69 @@ module.exports = class User {
       user: userWithoutPassword,
       longToken,
     };
+  }
+
+  async updateUser({ __token, id, username, email, password, role, res }) {
+    const { userId } = __token;
+    const currentUser = await this._getUser({ userId });
+    if (role) {
+      const canUpdateRole = await this.shark.isGranted({
+        layer: 'board.user',
+        action: 'config',
+        userId,
+        nodeId: `board.user.superAdmin`,
+        role: currentUser.role,
+      });
+
+      if (!canUpdateRole) {
+        this.responseDispatcher.dispatch(res, {
+          ok: false,
+          code: 403,
+          message: 'Only superAdmin able to update roles',
+        });
+        return { selfHandleResponse: true };
+      }
+    }
+
+    // Validate input
+    const validationResult = await this.validators.user.updateUser({
+      username,
+      email,
+      password,
+      role,
+    });
+    if (validationResult) return validationResult;
+
+    // Get the user
+    const user = await this.oyster.call('get_block', `${this._label}:${id}`);
+    if (!user) {
+      this.responseDispatcher.dispatch(res, {
+        ok: false,
+        code: 404,
+        message: 'User not Found',
+      });
+      return { selfHandleResponse: true };
+    }
+
+    // Update user
+    const updates = {};
+    if (username) updates.username = username;
+    if (email) updates.email = email;
+    if (password) updates.password = await this.hasher.hashPassword(password);
+    if (role) {
+      updates.role = role;
+      // Update Permissions If Role Changed
+      await this._setPermissions({ userId: id, role });
+    }
+    updates.updatedAt = Date.now();
+    updates.updatedBy = userId;
+
+    const updatedUser = await this.oyster.call('update_block', {
+      _id: `${this._label}:${id}`,
+      ...updates,
+    });
+
+    const { password: _password, ...userWithoutPassword } = updatedUser;
+    return { user: userWithoutPassword };
   }
 };
