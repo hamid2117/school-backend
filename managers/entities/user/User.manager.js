@@ -16,6 +16,7 @@ module.exports = class User {
     this.tokenManager = managers.token;
     this.responseDispatcher = managers.responseDispatcher;
     this.shark = managers.shark;
+    this.utils = utils;
     this._label = 'user';
     this.httpExposed = [
       'createUser',
@@ -134,6 +135,51 @@ module.exports = class User {
     const { password: _password, ...userWithoutPassword } = createdUser;
 
     // Response
+    return {
+      user: userWithoutPassword,
+      longToken,
+    };
+  }
+  async loginUser({ email, password, res }) {
+    // Validate input
+    const validationResult = await this.validators.user.loginUser({
+      email,
+      password,
+    });
+    if (validationResult) return validationResult;
+
+    // Get the user
+    const user = await this.oyster.call('get_block', `${this._label}:${email}`);
+    if (!user || this.utils.isObjEmpty(user)) {
+      this.responseDispatcher.dispatch(res, {
+        ok: false,
+        code: 404,
+        message: 'User not found',
+      });
+      return { selfHandleResponse: true };
+    }
+
+    // Verify Password
+    const isPasswordValid = await this.hasher.verifyPassword(
+      password,
+      user.password
+    );
+    if (!isPasswordValid) {
+      this.responseDispatcher.dispatch(res, {
+        ok: false,
+        code: 401,
+        message: 'Invalid Password',
+      });
+      return { selfHandleResponse: true };
+    }
+
+    // Generate Token
+    const longToken = this.tokenManager.genLongToken({
+      userId: email,
+      userKey: user.key,
+    });
+
+    const { password: _, ...userWithoutPassword } = user;
     return {
       user: userWithoutPassword,
       longToken,
