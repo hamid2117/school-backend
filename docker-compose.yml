@@ -1,0 +1,46 @@
+services:
+  school-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: school-backend
+    restart: unless-stopped
+    environment:
+      SERVICE_NAME: ${SERVICE_NAME}
+      NODE_ENV: ${NODE_ENV}
+      USER_PORT: ${USER_PORT}
+      REDIS_URI: redis://localhost:6379
+      LONG_TOKEN_SECRET: ${LONG_TOKEN_SECRET}
+      SHORT_TOKEN_SECRET: ${SHORT_TOKEN_SECRET}
+      NACL_SECRET: ${NACL_SECRET}
+      OYSTER_REDIS: redis://localhost:6379
+      OYSTER_PREFIX: ${OYSTER_PREFIX}
+      ADMIN_PORT: ${ADMIN_PORT}
+      ADMIN_URL: http://localhost:${ADMIN_PORT}
+      ENV: ${NODE_ENV}
+      MONGO_URI: mongodb://localhost:27017/${SERVICE_NAME}
+    depends_on:
+      - redis
+    volumes:
+      - ./:/usr/src/app
+      - /usr/src/app/node_modules
+    network_mode: 'host'
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+    driver: local
