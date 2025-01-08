@@ -1,20 +1,21 @@
-const jwt        = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const { nanoid } = require('nanoid');
-const md5        = require('md5');
+const md5 = require('md5');
 
 module.exports = class SharkFin {
-
-  constructor({ config, layers, actions, cache, managers,utils, oyster}) {
-    this.config  = config;
-    this.utils   = utils;
-    this.oyster  = oyster;
+  constructor({ config, layers, actions, cache, managers, utils, oyster }) {
+    this.config = config;
+    this.utils = utils;
+    this.oyster = oyster;
     this.contentToken = managers.contentToken;
-    this.layers  = layers;
+    this.layers = layers;
     this.actions = actions;
     this.wildAccess = {};
     this.userAccess = {};
     /** make sure the ranks doesn't have a zero rank. */
-    if (Object.values(this.actions).includes(0)) { throw Error("dont use 0 as a rank") }
+    if (Object.values(this.actions).includes(0)) {
+      throw Error('dont use 0 as a rank');
+    }
 
     this._addWilds();
   }
@@ -26,23 +27,22 @@ module.exports = class SharkFin {
       _id: `user:${userId}`,
       withScores: true,
     });
-    for(const blockedNodeId of Object.keys(blockedNodeIds)){
-      if(nodeId.includes(blockedNodeId.split(':')[1])) return true;
+    for (const blockedNodeId of Object.keys(blockedNodeIds)) {
+      if (nodeId.includes(blockedNodeId.split(':')[1])) return true;
     }
-    return false ;
+    return false;
   }
-  
+
   _addWilds() {
-    const wildAccessList = require('../../static_arch/wild.system')
+    const wildAccessList = require('../../static_arch/wild.system');
     for (const { userId, layer, action } of wildAccessList) {
       this.addWildAccess({ userId, layer, action });
     }
   }
 
-
   /** although adding wild access here add that to the user
    * tree but it shouldn't be checked with every direct access. */
-   
+
   addWildAccess({ userId, layer, action }) {
     if (!this.wildAccess[userId]) this.wildAccess[userId] = {};
     this.wildAccess[userId][layer] = this.actions[action];
@@ -63,7 +63,7 @@ module.exports = class SharkFin {
       set: {
         _members: [`node:${nodeId}~${this.actions[action]}:!`],
       },
-    })
+    });
   }
 
   removeDirectAccess({ userId, nodeId }) {
@@ -72,7 +72,7 @@ module.exports = class SharkFin {
       remove: {
         _members: [`node:${nodeId}`],
       },
-    })
+    });
   }
 
   async getDirectAccessRank({ userId, nodeId }) {
@@ -80,7 +80,7 @@ module.exports = class SharkFin {
       relation: '_members',
       items: [`node:${nodeId}`],
       _id: `user:${userId}`,
-    })
+    });
     return Object.values(nodes)[0];
   }
 
@@ -96,7 +96,7 @@ module.exports = class SharkFin {
   }
 
   _getLayerConfig({ layer, variant }) {
-    let defaultVariant = "_default";
+    let defaultVariant = '_default';
     variant = variant ? `_${variant}` : defaultVariant;
 
     let exactLayer = this.utils.getDeepValue(layer, this.layers);
@@ -104,7 +104,9 @@ module.exports = class SharkFin {
       return {};
     }
 
-    let layerConfig = exactLayer[variant] ? exactLayer[variant] : exactLayer[defaultVariant];
+    let layerConfig = exactLayer[variant]
+      ? exactLayer[variant]
+      : exactLayer[defaultVariant];
     return layerConfig || {};
   }
 
@@ -116,18 +118,18 @@ module.exports = class SharkFin {
     } else {
       /** return parent layer **/
       frgs.pop();
-      return frgs.join('.')
+      return frgs.join('.');
     }
   }
 
   getLayerIdFromToken({ tokenContent, layer }) {
-      let count = 0;
-      let id = null;
-      for (const l of tokenContent.layer.split('.')) {
-          if (l == layer) id = tokenContent.id.split('.')[count];
-          count++;
-      }
-      return id;
+    let count = 0;
+    let id = null;
+    for (const l of tokenContent.layer.split('.')) {
+      if (l == layer) id = tokenContent.id.split('.')[count];
+      count++;
+    }
+    return id;
   }
 
   _getParentId({ nodeId }) {
@@ -138,7 +140,7 @@ module.exports = class SharkFin {
     } else {
       /** return parent layer **/
       frgs.pop();
-      return frgs.join('.')
+      return frgs.join('.');
     }
   }
 
@@ -146,24 +148,34 @@ module.exports = class SharkFin {
     return this.layers;
   }
 
-  async isGranted({ layer, variant, userId, nodeId, action, isOwner, childLayer }) {
+  async isGranted({
+    layer,
+    variant,
+    userId,
+    nodeId,
+    action,
+    isOwner,
+    childLayer,
+  }) {
     let inqueryActionRank = this._getActionRank({ action, ceil: true });
 
     let curentNodeId = null;
-    if(nodeId) curentNodeId = nodeId.split('.').at(-1);
+    if (nodeId) curentNodeId = nodeId.split('.').at(-1);
 
     /** check layer config it may have a default **/
     let layerConfig = {};
-    if(layer) layerConfig = this._getLayerConfig({ layer, variant });
+    if (layer) layerConfig = this._getLayerConfig({ layer, variant });
     // console.log(`layerConfig`, layer, layerConfig);
     /*****************************IS USER BLOCKED*****************************/
     const isblocked = await this.isUserBlocked({ userId, nodeId });
-    if(isblocked) return false;
+    if (isblocked) return false;
     /********************************OWNER CAN********************************/
-    if(isOwner) {
-      if(layerConfig.ownerCan) {
+    if (isOwner) {
+      if (layerConfig.ownerCan) {
         // console.log('is Owner');
-        const layerOwnerActionRank = this._getActionRank({ action: layerConfig.ownerCan });
+        const layerOwnerActionRank = this._getActionRank({
+          action: layerConfig.ownerCan,
+        });
         if (layerOwnerActionRank >= inqueryActionRank) return true;
       }
       // else if (layerConfig.inherit){
@@ -174,27 +186,34 @@ module.exports = class SharkFin {
     }
     /*******************************WILD ACCESS*******************************/
     const wild = this.getWildAccess({ userId, layer });
-    if(wild != 0 && wild >= inqueryActionRank) return true;
+    if (wild != 0 && wild >= inqueryActionRank) return true;
     /*******************************NO ONE CAN********************************/
     /** check if action is blocked on layer level **/
     if (layerConfig.noOneCan) {
-      let layerBlockedActionRank = this._getActionRank({ action: layerConfig.noOneCan });
+      let layerBlockedActionRank = this._getActionRank({
+        action: layerConfig.noOneCan,
+      });
       if (layerBlockedActionRank <= inqueryActionRank) return false;
     }
     /*******************************ANYONE CAN********************************/
     /** check if the default action would allow **/
     if (layerConfig.anyoneCan) {
-      let layerActionRank = this._getActionRank({ action: layerConfig.anyoneCan });
+      let layerActionRank = this._getActionRank({
+        action: layerConfig.anyoneCan,
+      });
       /** granted by default access **/
       /** enable block on resource is another story, because at this point
-          we will need to create a block list for the resource itself**/  
+          we will need to create a block list for the resource itself**/
       if (layerActionRank >= inqueryActionRank) return true;
     }
     /******************************DIRECT ACCESS******************************/
     if (nodeId && userId) {
       /** user is always assigned to a single layer **/
       /** check if has direct access **/
-      let directRank = await this.getDirectAccessRank({ userId, nodeId: curentNodeId });
+      let directRank = await this.getDirectAccessRank({
+        userId,
+        nodeId: curentNodeId,
+      });
       /** granted by direct access */
       if (directRank >= inqueryActionRank) return true;
       /* if blocked dont authorize */
@@ -202,19 +221,34 @@ module.exports = class SharkFin {
     }
     /*******************************INHERITANCE*******************************/
     /** check if is granted by inheritance by parent layers **/
-    const isGranted = await this._checkInheritance({ 
-      layerConfig, layer, nodeId, variant, userId, action, isOwner });
-    if(isGranted) return true;
+    const isGranted = await this._checkInheritance({
+      layerConfig,
+      layer,
+      nodeId,
+      variant,
+      userId,
+      action,
+      isOwner,
+    });
+    if (isGranted) return true;
     return false;
   }
 
-  async _checkInheritance({ layerConfig, layer, nodeId, variant, userId, action, isOwner }) {
+  async _checkInheritance({
+    layerConfig,
+    layer,
+    nodeId,
+    variant,
+    userId,
+    action,
+    isOwner,
+  }) {
     if (layerConfig.inherit) {
-      console.log(`~ lets inherit`)
+      console.log(`~ lets inherit`);
       /** if the layer allows inhertance **/
       let parentLayer = this._getParentLayerPath({ layer });
       let parentId = null;
-      if(nodeId) parentId = this._getParentId({ nodeId });
+      if (nodeId) parentId = this._getParentId({ nodeId });
       if (!parentLayer) console.log(`parent not found`);
       else {
         let isGranted = await this.isGranted({
@@ -224,10 +258,10 @@ module.exports = class SharkFin {
           userId,
           action,
           isOwner,
-          childLayer: layer
+          childLayer: layer,
         });
         if (isGranted) return true;
       }
     }
   }
-}
+};

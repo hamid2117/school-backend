@@ -1,20 +1,18 @@
-
-const Redis = require("ioredis");
+const Redis = require('ioredis');
 
 const runTest = async (redis, prefix) => {
   const key = `${prefix}:test:${new Date().getTime()}`;
-  await redis.set(key, "Redis Test Done.");
+  await redis.set(key, 'Redis Test Done.');
   let data = await redis.get(key);
   console.log(`Cache Test Data: ${data}`);
   redis.del(key);
-}
+};
 
 const createClient = ({ prefix, url }) => {
+  console.log({ prefix, url });
 
-  console.log({ prefix, url })
-
-  const redis = new Redis(url,{
-    keyPrefix: prefix+":"
+  const redis = new Redis(url, {
+    keyPrefix: prefix + ':',
   });
 
   //register client events
@@ -29,8 +27,6 @@ const createClient = ({ prefix, url }) => {
   runTest(redis, prefix);
 
   return redis;
-}
-
-
+};
 
 exports.createClient = createClient;
