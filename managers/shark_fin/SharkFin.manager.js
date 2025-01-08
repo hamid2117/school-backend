@@ -155,6 +155,7 @@ module.exports = class SharkFin {
     nodeId,
     action,
     isOwner,
+    role,
     childLayer,
   }) {
     let inqueryActionRank = this._getActionRank({ action, ceil: true });
@@ -205,6 +206,21 @@ module.exports = class SharkFin {
       /** enable block on resource is another story, because at this point
           we will need to create a block list for the resource itself**/
       if (layerActionRank >= inqueryActionRank) return true;
+    }
+    /*******************************USER ACCESS*******************************/
+    if (layerConfig.adminCan && role == 'admin') {
+      const layerAdminActionRank = this._getActionRank({
+        action: layerConfig.adminCan,
+      });
+      // console.log(`layerActionRank>`, layerAdminActionRank, inqueryActionRank, layerConfig.adminCan, action);
+      if (layerAdminActionRank >= inqueryActionRank) return true;
+    }
+    if (layerConfig.superAdminCan && role == 'superAdmin') {
+      const layerSuperAdminActionRank = this._getActionRank({
+        action: layerConfig.superAdminCan,
+      });
+      // console.log(`layerActionRank>>`, layerSuperAdminActionRank, inqueryActionRank, layerConfig.superAdminCan, action);
+      if (layerSuperAdminActionRank >= inqueryActionRank) return true;
     }
     /******************************DIRECT ACCESS******************************/
     if (nodeId && userId) {

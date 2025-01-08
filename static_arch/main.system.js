@@ -6,6 +6,12 @@ const layers = {
     _private: { anyoneCan: 'none' },
     _store: { anyoneCan: 'read', noOneCan: 'create' },
 
+    user: {
+      _default: { anyoneCan: 'read', superAdminCan: 'update' },
+      _public: { anyoneCan: 'none' },
+      _private: { inherit: true },
+      _store: { inherit: true },
+    },
     school: {
       _default: { adminCan: 'read', superAdminCan: 'update' },
       _public: { anyoneCan: 'none' },
