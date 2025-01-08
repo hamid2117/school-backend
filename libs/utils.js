@@ -134,6 +134,9 @@ const isChance = (max) => {
   let value = Math.floor(Math.random() * (max - min + 1) + min);
   return min == value;
 };
+const isObjEmpty = (obj) => {
+  return Object.keys(obj).length === 0;
+};
 
 module.exports = {
   slugify,
@@ -148,4 +151,5 @@ module.exports = {
   hrTime,
   match,
   isChance,
+  isObjEmpty,
 };
