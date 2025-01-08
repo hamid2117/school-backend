@@ -17,15 +17,15 @@ module.exports = class User {
     this.userExposed = ['createUser'];
   }
 
-  async createUser({ username, email, password }) {
-    const user = { username, email, password };
+  async createUser({ userName, email, password }) {
+    const user = { userName, email, password };
 
     // Data validation
     let result = await this.validators.user.createUser(user);
     if (result) return result;
 
     // Creation Logic
-    let createdUser = { username, email, password };
+    let createdUser = { userName, email, password };
     let longToken = this.tokenManager.genLongToken({
       userId: createdUser._id,
       userKey: createdUser.key,

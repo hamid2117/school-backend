@@ -6,11 +6,11 @@ module.exports = {
     type: 'string',
     length: { min: 1, max: 50 },
   },
-  username: {
-    path: 'username',
+  userName: {
+    path: 'userName',
     type: 'string',
     length: { min: 3, max: 20 },
-    custom: 'username',
+    custom: 'userName',
   },
   password: {
     path: 'password',
@@ -102,5 +102,9 @@ module.exports = {
   },
   bool: {
     type: 'Boolean',
+  },
+  role: {
+    type: 'string',
+    regex: /^(superAdmin|admin|user)$/i,
   },
 };
