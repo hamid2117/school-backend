@@ -78,7 +78,7 @@ module.exports = class ManagersLoader {
 
     /*************************************************************************************************/
     this.managers.mwsExec = new VirtualStack({
-      ...{ preStack: [/* '__token', */ '__device'] },
+      ...{ preStack: ["__rateLimit", '__device'] },
       ...this.injectable,
     });
     this.managers.userApi = new ApiHandler({
