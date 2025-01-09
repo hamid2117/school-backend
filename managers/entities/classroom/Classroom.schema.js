@@ -1,14 +1,23 @@
 module.exports = {
   createClassroom: [
     {
-      path: 'name',
-      type: 'string',
-      length: { min: 1, max: 50 },
+      model: 'capacity',
+      path: 'capacity',
       required: true,
     },
     {
-      path: 'schoolId',
+      model: 'grade',
+      path: 'grade',
+      required: true,
+    },
+    {
+      model: 'academicYear',
+      path: 'academicYear',
+      required: true,
+    },
+    {
       type: 'String',
+      path: 'schoolId',
       required: true,
     },
   ],
@@ -21,19 +30,23 @@ module.exports = {
   ],
   updateClassroom: [
     {
-      path: 'name',
-      type: 'string',
-      length: { min: 1, max: 50 },
+      model: 'capacity',
+      path: 'capacity',
       required: true,
     },
     {
-      path: 'schoolId',
-      type: 'String',
+      model: 'grade',
+      path: 'grade',
       required: true,
     },
     {
-      type: 'String',
+      model: 'academicYear',
+      path: 'academicYear',
+      required: true,
+    },
+    {
       path: 'id',
+      type: 'String',
       required: true,
     },
   ],

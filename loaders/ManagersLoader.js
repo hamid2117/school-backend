@@ -17,6 +17,7 @@ const Hasher = require('../managers/hasher/Hasher.manager');
 // Custom Managers
 const UserManager = require('../managers/entities/user/User.manager');
 const SchoolManager = require('../managers/entities/school/School.manager');
+const ClassroomManager = require('../managers/entities/classroom/Classroom.manager');
 
 /**
  * load sharable modules
@@ -73,6 +74,7 @@ module.exports = class ManagersLoader {
     /*****************************************API MANAGERS*****************************************/
     this.managers.user = new UserManager(this.injectable);
     this.managers.school = new SchoolManager(this.injectable);
+    this.managers.classroom = new ClassroomManager(this.injectable);
     /*************************************************************************************************/
     this.managers.mwsExec = new VirtualStack({
       ...{ preStack: [/* '__token', */ '__device'] },

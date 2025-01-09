@@ -107,4 +107,18 @@ module.exports = {
     type: 'string',
     regex: /^(superAdmin|admin|user)$/i,
   },
+  capacity: {
+    type: 'Number',
+    min: 1,
+    max: 80,
+  },
+  grade: {
+    type: 'Number',
+    min: 1,
+    max: 12,
+  },
+  academicYear: {
+    type: 'String',
+    regex: /^\d{4}-\d{4}$/,
+  },
 };
