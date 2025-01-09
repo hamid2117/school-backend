@@ -81,6 +81,10 @@ module.exports = {
     type: 'String',
     length: { min: 10, max: 15 },
   },
+  gender: {
+    type: 'String',
+    regex: /^(male|female)$/,
+  },
   email: {
     type: 'String',
     regex:
