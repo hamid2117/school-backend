@@ -17,7 +17,7 @@ const layers = {
       _public: { anyoneCan: 'none' },
       _private: { inherit: true },
       _store: { inherit: true },
-      class: {
+      classRoom: {
         _default: { adminCan: 'update', superAdminCan: 'read' },
         _public: { inherit: true },
         _private: { inherit: true },
