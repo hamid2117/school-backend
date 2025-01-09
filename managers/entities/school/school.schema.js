@@ -27,17 +27,14 @@ module.exports = {
     {
       model: 'text',
       path: 'name',
-      required: true,
     },
     {
       model: 'longText',
       path: 'address',
-      required: true,
     },
     {
       model: 'phone',
       path: 'phone',
-      required: true,
     },
     {
       type: 'String',

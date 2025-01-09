@@ -29,17 +29,14 @@ module.exports = {
       path: 'name',
       type: 'String',
       length: { min: 1, max: 50 },
-      required: true,
     },
     {
       model: 'gender',
       path: 'gender',
-      required: true,
     },
     {
       path: 'classroomId',
       type: 'String',
-      required: true,
     },
     {
       type: 'String',
