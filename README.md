@@ -97,7 +97,6 @@ Below is a visual representation of the database schema and relationships within
 
 **Relationships:**
 
-- **Users ↔ Schools**: A user can administer multiple schools.
 - **Schools ↔ Classrooms**: A school contains multiple classrooms.
 - **Schools ↔ Students**: A school enrolls multiple students.
 - **Classrooms ↔ Students**: A classroom houses multiple students.
