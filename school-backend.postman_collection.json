@@ -1,0 +1,943 @@
+{
+	"info": {
+		"_postman_id": "bfe6d3a1-d24f-4aa1-adf0-07d2c6449eb4",
+		"name": "school-backend",
+		"description": "School Management API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24096285"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"student2@gmail.com\",\r\n    \"password\": \"student1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/loginUser",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"loginUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "shortToken",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQ1QGdtYWlsLmNvbSIsImlhdCI6MTczNjQwMTY0MCwiZXhwIjoxODMxMDc0NDQwfQ.O3_fGmpN9nNSxHuvfuEC0c1lOd3_no2UEy0wuroMfWY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/token/v1_createShortToken",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"token",
+								"v1_createShortToken"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "createUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"admin\",\r\n    \"email\": \"student5@gmail.com\",\r\n    \"password\": \"student1234\",\r\n    \"role\":\"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/createUser",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"createUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQyQGdtYWlsLmNvbSIsInNlc3Npb25JZCI6IkRydW9tRjQ5akxmdF9aZXJucEQ5TyIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzYzMTcwMjEsImV4cCI6MTc2Nzg3NDYyMX0.GdbJ9UCP98SAulkgQidN6ArWAqzX97_WnIQWV12qhiI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/user/getUser?id=student3@gmail.com",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"getUser"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "student3@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUser",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\":\"654572b90341db19fafffc4b\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/getUser",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"getUser"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQyQGdtYWlsLmNvbSIsInNlc3Npb25JZCI6IkRydW9tRjQ5akxmdF9aZXJucEQ5TyIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzYzMTcwMjEsImV4cCI6MTc2Nzg3NDYyMX0.GdbJ9UCP98SAulkgQidN6ArWAqzX97_WnIQWV12qhiI",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQyQGdtYWlsLmNvbSIsInNlc3Npb25JZCI6IkRydW9tRjQ5akxmdF9aZXJucEQ5TyIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzYzMTcwMjEsImV4cCI6MTc2Nzg3NDYyMX0.GdbJ9UCP98SAulkgQidN6ArWAqzX97_WnIQWV12qhiI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"student2\",\r\n    \"email\": \"student2@gmail.com\",\r\n    \"password\": \"student1234\",\r\n    \"role\":\"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/user/updateUser/student4@gmail.com",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"updateUser",
+								"student4@gmail.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQyQGdtYWlsLmNvbSIsInNlc3Npb25JZCI6IkRydW9tRjQ5akxmdF9aZXJucEQ5TyIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzYzMTcwMjEsImV4cCI6MTc2Nzg3NDYyMX0.GdbJ9UCP98SAulkgQidN6ArWAqzX97_WnIQWV12qhiI",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/user/deleteUser?id=student2@gmail.com",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"deleteUser"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "student2@gmail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "school",
+			"item": [
+				{
+					"name": "createSchool",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQyQGdtYWlsLmNvbSIsInNlc3Npb25JZCI6Ik5WZTF2S3ZGQktkMTNfRFpZbUxtcCIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzYzOTQ2OTIsImV4cCI6MTc2Nzk1MjI5Mn0.5-1wGXfhR5Dtu4Jrs_4ICf6xGA2Y6ZY_l_nuBaG-jHM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Rawalpindi School\",\r\n    \"address\": \"Islamabad, pakistan\",\r\n    \"phone\":\"03242245223\",\r\n    \"email\":\"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/school/createSchool",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"school",
+								"createSchool"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateSchool",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQyQGdtYWlsLmNvbSIsInNlc3Npb25JZCI6Ik5WZTF2S3ZGQktkMTNfRFpZbUxtcCIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzYzOTQ2OTIsImV4cCI6MTc2Nzk1MjI5Mn0.5-1wGXfhR5Dtu4Jrs_4ICf6xGA2Y6ZY_l_nuBaG-jHM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n            \"id\": \"schools:sNDO4lAw3LxPkEYkq5qL2\",\r\n            \"name\": \"Islamabad School2\",\r\n            \"address\": \"Islamabad, pakistan2\",\r\n            \"phone\": \"0324224522322\",\r\n            \"email\": \"test22\",\r\n            \"createdAt\": 1736394938107,\r\n            \"createdBy\": \"user:student2@gmail.com\",\r\n            \"_admins\": \"[\\\"user:user:student2@gmail.com\\\"]\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/school/updateSchool",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"school",
+								"updateSchool"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteSchool",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQyQGdtYWlsLmNvbSIsInNlc3Npb25JZCI6Ik5WZTF2S3ZGQktkMTNfRFpZbUxtcCIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzYzOTQ2OTIsImV4cCI6MTc2Nzk1MjI5Mn0.5-1wGXfhR5Dtu4Jrs_4ICf6xGA2Y6ZY_l_nuBaG-jHM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/school/deleteSchool?id=schools:sNDO4lAw3LxPkEYkq5qL2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"school",
+								"deleteSchool"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "schools:sNDO4lAw3LxPkEYkq5qL2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSchools",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQyQGdtYWlsLmNvbSIsInNlc3Npb25JZCI6Ik5WZTF2S3ZGQktkMTNfRFpZbUxtcCIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzYzOTQ2OTIsImV4cCI6MTc2Nzk1MjI5Mn0.5-1wGXfhR5Dtu4Jrs_4ICf6xGA2Y6ZY_l_nuBaG-jHM",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/school/getSchools",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"school",
+								"getSchools"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getSchool",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQyQGdtYWlsLmNvbSIsInNlc3Npb25JZCI6Ik5WZTF2S3ZGQktkMTNfRFpZbUxtcCIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzYzOTQ2OTIsImV4cCI6MTc2Nzk1MjI5Mn0.5-1wGXfhR5Dtu4Jrs_4ICf6xGA2Y6ZY_l_nuBaG-jHM",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"65ca8b1e705f22f1c7038874\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/school/getSchool?id=schools:sNDO4lAw3LxPkEYkq5qL2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"school",
+								"getSchool"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "schools:sNDO4lAw3LxPkEYkq5qL2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "classroom",
+			"item": [
+				{
+					"name": "createClassroom",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQ1QGdtYWlsLmNvbSIsInNlc3Npb25JZCI6IlF3bjVxaDRUYjVtUDVqMUdjYkE5aCIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzY0MDE2NTYsImV4cCI6MTc2Nzk1OTI1Nn0.ulxWYd9By3ZVc9bCjsO2sFlXbLjRUxfIe8jrUe8Ueqk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"capacity\": 20,\r\n    \"grade\":4,\r\n    \"academicYear\":\"2001-2002\",\r\n    \"schoolId\": \"schools:bKK-OMUct99_FvFbqzEHG\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/classroom/createClassroom",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"classroom",
+								"createClassroom"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateClassroom",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQ1QGdtYWlsLmNvbSIsInNlc3Npb25JZCI6IlF3bjVxaDRUYjVtUDVqMUdjYkE5aCIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzY0MDE2NTYsImV4cCI6MTc2Nzk1OTI1Nn0.ulxWYd9By3ZVc9bCjsO2sFlXbLjRUxfIe8jrUe8Ueqk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"capacity\": 25,\r\n    \"grade\":6,\r\n    \"academicYear\":\"2006-2007\",\r\n    \"schoolId\": \"schools:bKK-OMUct99_FvFbqzEHG\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/classroom/updateClassroom",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"classroom",
+								"updateClassroom"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteClassroom",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQ1QGdtYWlsLmNvbSIsInNlc3Npb25JZCI6IlF3bjVxaDRUYjVtUDVqMUdjYkE5aCIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzY0MDE2NTYsImV4cCI6MTc2Nzk1OTI1Nn0.ulxWYd9By3ZVc9bCjsO2sFlXbLjRUxfIe8jrUe8Ueqk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"65cc0992697ffc0506a8d118\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/classroom/deleteClassroom",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"classroom",
+								"deleteClassroom"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getClassroom",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQ1QGdtYWlsLmNvbSIsInNlc3Npb25JZCI6IlF3bjVxaDRUYjVtUDVqMUdjYkE5aCIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzY0MDE2NTYsImV4cCI6MTc2Nzk1OTI1Nn0.ulxWYd9By3ZVc9bCjsO2sFlXbLjRUxfIe8jrUe8Ueqk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/classroom/getClassroom?id=classrooms:6hMeii_lBMOAQDt5C_C5i",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"classroom",
+								"getClassroom"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "classrooms:6hMeii_lBMOAQDt5C_C5i"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "enrollStudent",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQ1QGdtYWlsLmNvbSIsInNlc3Npb25JZCI6IlF3bjVxaDRUYjVtUDVqMUdjYkE5aCIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzY0MDE2NTYsImV4cCI6MTc2Nzk1OTI1Nn0.ulxWYd9By3ZVc9bCjsO2sFlXbLjRUxfIe8jrUe8Ueqk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": \"classrooms:6hMeii_lBMOAQDt5C_C5i\",\r\n    \"studentId\": \"65cc0e44802b28f83f15eaaa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/classroom/enrollStudent",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"classroom",
+								"enrollStudent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "unenrollStudent",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"classroomId\": \"65cc0992697ffc0506a8d118\",\r\n    \"studentId\": \"65cc0e44802b28f83f15eaaa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/classroom/unenrollStudent",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"classroom",
+								"unenrollStudent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getClassrooms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/classroom/getClassrooms",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"classroom",
+								"getClassrooms"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "student",
+			"item": [
+				{
+					"name": "createStudent",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQ1QGdtYWlsLmNvbSIsInNlc3Npb25JZCI6IlF3bjVxaDRUYjVtUDVqMUdjYkE5aCIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzY0MDE2NTYsImV4cCI6MTc2Nzk1OTI1Nn0.ulxWYd9By3ZVc9bCjsO2sFlXbLjRUxfIe8jrUe8Ueqk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"hamid\",\r\n    \"gender\":\"male\",\r\n    \"classroomId\": \"classrooms:6hMeii_lBMOAQDt5C_C5i\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/student/createStudent",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"student",
+								"createStudent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updateStudent",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQ1QGdtYWlsLmNvbSIsInNlc3Npb25JZCI6IlF3bjVxaDRUYjVtUDVqMUdjYkE5aCIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzY0MDE2NTYsImV4cCI6MTc2Nzk1OTI1Nn0.ulxWYd9By3ZVc9bCjsO2sFlXbLjRUxfIe8jrUe8Ueqk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"noor\",\r\n    \"gender\":\"female\",\r\n    \"classroomId\": \"classrooms:6hMeii_lBMOAQDt5C_C5i\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/student/updateStudent",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"student",
+								"updateStudent"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteStudent",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQ1QGdtYWlsLmNvbSIsInNlc3Npb25JZCI6IlF3bjVxaDRUYjVtUDVqMUdjYkE5aCIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzY0MDE2NTYsImV4cCI6MTc2Nzk1OTI1Nn0.ulxWYd9By3ZVc9bCjsO2sFlXbLjRUxfIe8jrUe8Ueqk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/student/deleteStudent?id=students:4B4f1g3sUCLxPLdXk7LUb",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"student",
+								"deleteStudent"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "students:4B4f1g3sUCLxPLdXk7LUb"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getStudent",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1c2VyOnN0dWRlbnQ1QGdtYWlsLmNvbSIsInNlc3Npb25JZCI6IlF3bjVxaDRUYjVtUDVqMUdjYkE5aCIsImRldmljZUlkIjoiMzQ0OWM5ZTVlMzMyZjFkYmI4MTUwNWNkNzM5ZmJmM2YiLCJpYXQiOjE3MzY0MDE2NTYsImV4cCI6MTc2Nzk1OTI1Nn0.ulxWYd9By3ZVc9bCjsO2sFlXbLjRUxfIe8jrUe8Ueqk",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/api/classroom/getClassroom?id=classrooms:6hMeii_lBMOAQDt5C_C5i",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"classroom",
+								"getClassroom"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "classrooms:6hMeii_lBMOAQDt5C_C5i"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "http://localhost:5111",
+			"type": "string"
+		}
+	]
+}
