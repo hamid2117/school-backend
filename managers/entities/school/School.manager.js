@@ -187,4 +187,36 @@ module.exports = class School {
 
     return { school: updatedSchool };
   }
+  async deleteSchool({ __token, __query, res }) {
+    const { userId } = __token;
+    const { id } = __query;
+    // Permission check
+    const canDeleteSchool = await this._validatePermission({
+      userId,
+      action: 'delete',
+    });
+
+    if (canDeleteSchool.error) {
+      return canDeleteSchool;
+    }
+
+    // Get school
+    const school = await this.oyster.call('get_block', `${this._label}:${id}`);
+    if (!school || this.utils.isObjEmpty(school)) {
+      this.responseDispatcher.dispatch(res, {
+        ok: false,
+        code: 404,
+        message: 'School not found',
+      });
+      return { selfHandleResponse: true };
+    }
+
+    // Delete school & its relations
+    await this.oyster.call('delete_block', `${this._label}:${id}`);
+    await this.oyster.call('delete_relations', {
+      _id: `${this._label}:${id}`,
+    });
+
+    return { message: 'School deleted successfully' };
+  }
 };
