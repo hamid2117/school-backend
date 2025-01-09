@@ -15,29 +15,6 @@ A concise RESTful API for managing schools, classrooms, and students with robust
 8. [Deployment](#deployment)
 9. [Mock Data](#mock-data)
 
----
-
-## Features
-
-- **Role-Based Access Control (RBAC)**
-- **School Management**
-- **Classroom Management with Resource Tracking**
-- **Student Profile Management**
-- **Secure JWT Authentication (Long & Short Tokens)**
-- **User Role Management**
-
----
-
-## Technology Stack
-
-- **Runtime**: Node.js
-- **Framework**: Express.js
-- **Authentication**: JSON Web Tokens (JWT)
-- **Validation**: Custom Validators
-- **Rate Limiting**: Middleware-based
-- **Documentation**: Postman Collection
-
----
 
 ## Setup Instructions
 
@@ -52,7 +29,7 @@ A concise RESTful API for managing schools, classrooms, and students with robust
 
    ```bash
    git clone <repository-url>
-   cd school-management-api
+   cd school-backend
    ```
 
 2. **Install Dependencies**
@@ -73,6 +50,8 @@ A concise RESTful API for managing schools, classrooms, and students with robust
    SHORT_TOKEN_SECRET=your_short_token_secret
    NACL_SECRET=your_nacl_secret
    OYSTER_PREFIX=school_
+   REDIS_URI=redis://localhost:6379
+   OYSTER_REDIS=redis://localhost:6379
    ```
 
 4. **Run the Application**
