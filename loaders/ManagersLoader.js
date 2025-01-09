@@ -12,7 +12,6 @@ const systemArch = require('../static_arch/main.system');
 const TokenManager = require('../managers/token/Token.manager');
 const SharkFin = require('../managers/shark_fin/SharkFin.manager');
 const TimeMachine = require('../managers/time_machine/TimeMachine.manager');
-const Hasher = require('../managers/hasher/Hasher.manager');
 
 // Custom Managers
 const UserManager = require('../managers/entities/user/User.manager');
@@ -70,7 +69,6 @@ module.exports = class ManagersLoader {
     this.managers.shark = new SharkFin({ ...this.injectable, layers, actions });
     this.managers.timeMachine = new TimeMachine(this.injectable);
     this.managers.token = new TokenManager(this.injectable);
-    this.managers.hasher = new Hasher(this.injectable);
 
     /*****************************************API MANAGERS*****************************************/
     this.managers.user = new UserManager(this.injectable);
