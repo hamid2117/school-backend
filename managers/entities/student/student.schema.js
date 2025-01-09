@@ -12,7 +12,7 @@ module.exports = {
       required: true,
     },
     {
-      path: 'classId',
+      path: 'classroomId',
       type: 'String',
       required: true,
     },
@@ -37,7 +37,7 @@ module.exports = {
       required: true,
     },
     {
-      path: 'classId',
+      path: 'classroomId',
       type: 'String',
       required: true,
     },
