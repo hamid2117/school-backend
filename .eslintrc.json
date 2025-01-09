@@ -1,15 +1,19 @@
 {
   "env": {
     "node": true,
-    "es2021": true
+    "es2021": true,
+    "jest": true
   },
   "extends": [
     "eslint:recommended",
-    "plugin:prettier/recommended" // Integrates Prettier with ESLint
+    "plugin:jest/recommended",
+    "plugin:prettier/recommended"
   ],
-  "plugins": ["prettier"],
+  "plugins": [
+    "jest",
+    "prettier"
+  ],
   "rules": {
-    "prettier/prettier": "error" // Shows Prettier errors as ESLint errors
-    // Add or override other ESLint rules here
+    "prettier/prettier": "error"
   }
 }
