@@ -67,7 +67,7 @@ module.exports = {
   },
   text: {
     type: 'String',
-    length: { min: 3, max: 15 },
+    length: { min: 3, max: 20 },
   },
   longText: {
     type: 'String',
@@ -79,7 +79,7 @@ module.exports = {
   },
   phone: {
     type: 'String',
-    length: 13,
+    length: { min: 10, max: 15 },
   },
   email: {
     type: 'String',
