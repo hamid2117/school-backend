@@ -8,7 +8,7 @@ module.exports = class School {
     this.shark = managers.shark;
     this.validators = validators;
     this.responseDispatcher = managers.responseDispatcher;
-    this._label = 'school';
+    this._label = 'schools';
     this.httpExposed = [
       'createSchool',
       'get=getSchool',
