@@ -8,7 +8,7 @@ module.exports = class School {
     this.shark = managers.shark;
     this.validators = validators;
     this.responseDispatcher = managers.responseDispatcher;
-    this._label = 'schools';
+    this._label = 'school';
     this.httpExposed = [
       'createSchool',
       'get=getSchool',
@@ -201,7 +201,7 @@ module.exports = class School {
     }
 
     // Get school
-    const school = await this.oyster.call('get_block', `${this._label}:${id}`);
+    const school = await this.oyster.call('get_block', `${id}`);
     if (!school || this.utils.isObjEmpty(school)) {
       this.responseDispatcher.dispatch(res, {
         ok: false,
@@ -212,7 +212,7 @@ module.exports = class School {
     }
 
     // Delete school & its relations
-    await this.oyster.call('delete_block', `${this._label}:${id}`);
+    await this.oyster.call('delete_block', `${id}`);
     await this.oyster.call('delete_relations', {
       _id: `${this._label}:${id}`,
     });
