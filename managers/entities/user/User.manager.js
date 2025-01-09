@@ -1,3 +1,5 @@
+
+const bcrypt = require('bcrypt');
 module.exports = class User {
   constructor({
     utils,
@@ -10,7 +12,6 @@ module.exports = class User {
   } = {}) {
     this.config = config;
     this.cortex = cortex;
-    this.hasher = managers.hasher;
     this.validators = validators;
     this.oyster = oyster;
     this.tokenManager = managers.token;
@@ -25,6 +26,14 @@ module.exports = class User {
       'delete=deleteUser',
       'get=getUser',
     ];
+  }
+  async _hashPassword(password) {
+    const salt = await bcrypt.genSalt(10);
+    return await bcrypt.hash(password, salt);
+  }
+
+  async _verifyPassword(password, hashedPassword) {
+    return await bcrypt.compare(password, hashedPassword);
   }
   async _getUser({ userId }) {
     return await this.oyster.call('get_block', `${userId}`);
@@ -98,7 +107,7 @@ module.exports = class User {
     if (validationResult) return validationResult;
 
     // Creation Logic
-    const hashedPassword = await this.hasher.hashPassword(password);
+    const hashedPassword = await this._hashPassword(password);
     const createdUser = await this.oyster.call('add_block', {
       _id: email,
       _label: this._label,
@@ -160,7 +169,7 @@ module.exports = class User {
     }
 
     // Verify Password
-    const isPasswordValid = await this.hasher.verifyPassword(
+    const isPasswordValid = await this._verifyPassword(
       password,
       user.password
     );
@@ -271,7 +280,7 @@ module.exports = class User {
     const updates = {};
     if (username) updates.username = username;
     if (email) updates.email = email;
-    if (password) updates.password = await this.hasher.hashPassword(password);
+    if (password) updates.password = await this._hashPassword(password);
     if (role) {
       updates.role = role;
       // Update Permissions If Role Changed

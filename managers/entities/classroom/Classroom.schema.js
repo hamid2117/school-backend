@@ -32,17 +32,14 @@ module.exports = {
     {
       model: 'capacity',
       path: 'capacity',
-      required: true,
     },
     {
       model: 'grade',
       path: 'grade',
-      required: true,
     },
     {
       model: 'academicYear',
       path: 'academicYear',
-      required: true,
     },
     {
       path: 'id',
